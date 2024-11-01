@@ -1,5 +1,5 @@
 /**
- * 更新日期： 2024-11-01T02:13:49+08:00
+ * 更新日期： 2024-11-01T15:31:33+08:00
  * 用法：Sub-Store 脚本操作添加
  * rename.js 以下是此脚本支持的参数，必须以 # 为开头多个参数使用"&"连接，参考上述地址为例使用参数。 禁用缓存url#noCache
  *
@@ -247,9 +247,9 @@ function operator(pro) {
     }
 
     const BLKEYS = BLKEY ? BLKEY.split("+") : "";
-    let FNAME = inArg.name == undefined ? (flowerName ? pro?.[0]?._subName : "") : decodeURI(inArg.name)
-    FNAME = flowerName ? convertToFlowerStyle(FNAME, font, style) : FNAME
     pro.forEach((e) => {
+        let FNAME = inArg.name == undefined ? (flowerName ? e._subName : "") : decodeURI(inArg.name)
+        FNAME = flowerName ? convertToFlowerStyle(FNAME, font, style) : FNAME
         let bktf = false, ens = e.name
         // 预处理 防止预判或遗漏
         Object.keys(rurekey).forEach((ikey) => {

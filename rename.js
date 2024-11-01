@@ -1,5 +1,5 @@
 /**
- * 更新日期： 2024-11-01T21:56:30+08:00
+ * 更新日期： 2024-11-01T22:01:28+08:00
  * 用法：Sub-Store 脚本操作添加
  * rename.js 以下是此脚本支持的参数，必须以 # 为开头多个参数使用"&"连接，参考上述地址为例使用参数。 禁用缓存url#noCache
  *
@@ -22,6 +22,7 @@
  * 序号参数
  * [one]    清理只有一个节点的地区的01
  * [flag]   给节点前面加国旗
+ * [fullflag]   使用完整版国旗
  *
  *** 前缀参数
  * [flowername]  节点是否添加机场花体名称前缀，默认值为订阅名称；
@@ -56,6 +57,7 @@ const nx = inArg.nx || false,
     debug = inArg.debug || false,
     clear = inArg.clear || false,
     addflag = inArg.flag || false,
+    fullFlag = inArg.fullflag || false,
     nm = inArg.nm || false,
     flowerName = inArg.flowername || false,
     font = inArg.font || "serif",
@@ -355,7 +357,7 @@ function operator(pro) {
                 const index = outList.indexOf(findKeyValue);
                 if (index !== -1) {
                     usflag = FG[index];
-                    usflag = usflag === "🇹🇼" ? "🇨🇳" : usflag;
+                    usflag = fullFlag ? usflag : (usflag === "🇹🇼" ? "🇨🇳" : usflag);
                 }
             }
             // 使用自定义分隔符连接 firstName, usflag, nNames

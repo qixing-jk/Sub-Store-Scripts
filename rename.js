@@ -1,5 +1,5 @@
 /**
- * 更新日期： 2024-11-01T15:31:33+08:00
+ * 更新日期： 2024-11-01T21:56:30+08:00
  * 用法：Sub-Store 脚本操作添加
  * rename.js 以下是此脚本支持的参数，必须以 # 为开头多个参数使用"&"连接，参考上述地址为例使用参数。 禁用缓存url#noCache
  *
@@ -26,6 +26,7 @@
  *** 前缀参数
  * [flowername]  节点是否添加机场花体名称前缀，默认值为订阅名称；
  * [name=]  可选，节点添加机场名称前缀；
+ * [nameseparator=]  可选，节点添加机场名称前缀的分隔符；
  * [nf]     把 name= 的前缀值放在最前面
  * [font=]  添加名称前缀的字体类型
  * [style=] 添加名称前缀的字体样式类型
@@ -42,7 +43,7 @@
  * [blockquic] blockquic=on 阻止; blockquic=off 不阻止
  */
 
-// const inArg = {'blkey':'iplc+GPT>GPTnewName+NF+IPLC', 'flag':true };
+// const $arguments = {};
 const inArg = $arguments; // console.log(inArg)
 const nx = inArg.nx || false,
     bl = inArg.bl || false,
@@ -217,6 +218,8 @@ function ObjKA(i) {
     AMK = Object.entries(i)
 }
 
+const nameSeparator = inArg.nameseparator || FGF;
+
 function operator(pro) {
     const Allmap = {};
     const outList = getList(outputName);
@@ -340,9 +343,9 @@ function operator(pro) {
             nNames = "";
 
         if (nf) {
-            firstName = FNAME;
+            firstName = FNAME + nameSeparator;
         } else {
-            nNames = FNAME;
+            nNames = [...nameSeparator].reverse().join("") + FNAME;
         }
         if (findKey?.[1]) {
             const findKeyValue = findKey[1];
@@ -355,8 +358,10 @@ function operator(pro) {
                     usflag = usflag === "🇹🇼" ? "🇨🇳" : usflag;
                 }
             }
+            // 使用自定义分隔符连接 firstName, usflag, nNames
+            const namePart = [firstName, usflag, nNames].filter(k => k !== "").join("");
             keyover = keyover
-                .concat(firstName, usflag, nNames, findKeyValue, retainKey, ikey, ikeys)
+                .concat(namePart, findKeyValue, retainKey, ikey, ikeys)
                 .filter((k) => k !== "");
             e.name = keyover.join(FGF);
         } else {

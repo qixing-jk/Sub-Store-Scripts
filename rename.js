@@ -4,6 +4,7 @@
  * rename.js 以下是此脚本支持的参数，必须以 # 为开头多个参数使用"&"连接，参考上述地址为例使用参数。 禁用缓存url#noCache
  *
  *** 主要参数
+ * [skip=my|other|temp|main]    跳过重命名流程的订阅名称
  * [in=] 自动判断机场节点名类型 优先级 zh(中文) -> flag(国旗) -> quan(英文全称) -> en(英文简写)
  * 如果不准的情况, 可以加参数指定:
  *
@@ -61,7 +62,8 @@ const nx = inArg.nx || false,
     nm = inArg.nm || false,
     flowerName = inArg.flowername || false,
     font = inArg.font || "serif",
-    style = inArg.style || "bold-italic";
+    style = inArg.style || "bold-italic",
+    skip = inArg.skip || "";
 
 const FGF = inArg.fgf == undefined ? " " : decodeURI(inArg.fgf),
     XHFGF = inArg.sn == undefined ? " " : decodeURI(inArg.sn),
@@ -253,6 +255,9 @@ function operator(pro) {
 
     const BLKEYS = BLKEY ? BLKEY.split("+") : "";
     pro.forEach((e) => {
+        if (skip.split('|').includes(e._subName)) {
+            return
+        }
         let FNAME = inArg.name == undefined ? (flowerName ? e._subName : "") : decodeURI(inArg.name)
         FNAME = flowerName ? convertToFlowerStyle(FNAME, font, style) : FNAME
         let bktf = false, ens = e.name
